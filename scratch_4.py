@@ -263,16 +263,17 @@ fpr, tpr, thresholds = get_roc_curve(fit, test_pool, plot=True)
 fit.get_feature_importance(prettified=True)
 explainer = shap.Explainer(fit)
 shap_values = explainer(X_test)
+shap.plots.waterfall(shap_values[0])
+shap.plots.beeswarm(shap_values)
+# import streamlit.components.v1 as components
+#
+# def st_shap(plot, height=None):
+#     shap_html = f"<head>{shap.getjs()}</head><body>{plot.html()}</body>"
+#     components.html(shap_html, height=height)
 
-import streamlit.components.v1 as components
-
-def st_shap(plot, height=None):
-    shap_html = f"<head>{shap.getjs()}</head><body>{plot.html()}</body>"
-    components.html(shap_html, height=height)
-
-st_shap(shap.force_plot(explainer.expected_value[0], shap_values[0]))
-st_shap(shap.plots.waterfall(shap_values[0]))
-st_shap(shap.plots.beeswarm(shap_values))
+# st_shap(shap.force_plot(explainer.expected_value[0], shap_values[0]))
+# st_shap(shap.plots.waterfall(shap_values[0]))
+# st_shap(shap.plots.beeswarm(shap_values))
 # _____________________________________________________________________________
 # _____________________________________________________________________________
 from catboost.utils import get_fpr_curve, get_fnr_curve
